@@ -42,7 +42,7 @@
 
 \begin{document}
 
-\lecture{Bayesian nonparametrics}{Sinead Williamson}{Scribes} % Lecture name, Lecturer, Scribes
+\lecture{Bayesian nonparametrics}{Sinead Williamson}{Victor Chahuneau, Rory Donovan, Abhimanu Kumar}
 
 \section{Introduction}
 Nonparametric models allow the number of parameters to grow with sample size.
@@ -50,17 +50,17 @@ Nonparametric models allow the number of parameters to grow with sample size.
 \section{Nonparametric regression with Gaussian processes}
 Usually, polynomial regression is used to model a set of points. Unfortunately, as the numbers of degree of freedom include, this produces overfitting.
 
-\subsection{The Gaussian distribution}
+\paragraph{The Gaussian distribution}
 Two important properties: if $y=[y_1,y_2]$ is Gaussian, then:
 \begin{itemize}
     \item the marginal $y_1$ is Gaussian
     \item the conditional $y_1 \mid y_2$ is Gaussian
 \end{itemize}
 
-A GP corresponds to a generalization of a $N$-variate Gaussian as $N \longrightarrow \infty$, such that the marginals are still normally distributed. It is thus a distribution over functions controlled by a covariance function.
+\paragraph{The Gaussian process} A GP corresponds to a generalization of a $N$-variate Gaussian as $N \longrightarrow \infty$, such that the marginals are still normally distributed. It is thus a distribution over functions controlled by a covariance function.
 Typically, an exponential kernel is used to define the covariance function.
 
-When observing data, the predictions of the model are close to the existing data points and generic wherever data is absent (add figure).
+When observing data, the predictions of the model are close to the existing data points and generic wherever data is absent \todo{add figure from slides}.
 
 \section{Nonparametric mixture models}
 \subsection{Finite mixture models}
@@ -88,9 +88,18 @@ If $\nu_k \sim \Gam(\alpha_k, 1)$, then $\frac{\nu}{\sum_k \nu_k} \sim \Dir(\alp
 From the properties of the gamma distribution, we deduce that a $(K-1)$-dimensional Dirichlet distribution can be obtained from a $K$-dimensional Dirichlet distribution by summing the two first components.
 \todo{renormalization}
 
+\subsection{The Dirichlet process}
 We can now generalize to an infinite number of parameters by splitting and renormalizing: $\pi \sim \Dir(\frac{\alpha}{K}), K \longrightarrow \infty$. This defines the Dirichlet process, which we write $G \sim \DP(\alpha, H)$. Now the combination can be written:
 
 $$ p(x \mid G) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
 
+The concentration parameter $\alpha$ controls the sparsity of the distribution, and the base measure $H$ determines the locations of the atoms $\delta_{\theta_k}$.
+
+Another definition of the DP can be obtained by considering partitions of the probability space: \todo{A Dirichlet process is the unique distribution over probability distributions on some space Ω, such that for any finite partition [etc.]}
+
+The posterior over partitions given an observation $x$ is a finite dimensional Dirichlet :
+$ G \mid x \sim \DP(\alpha+1, \frac{\alpha H + \delta_x}{\alpha + 1})$
+
+\todo{Finish posterior distribution}
 
 \end{document}
