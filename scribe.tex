@@ -1,0 +1,96 @@
+\documentclass[twoside]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{color}
+
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\lecture}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in {{\bf 10-708:~Probabilistic Graphical Models
+10-708, Spring 2012 \hfill}}
+       \vspace{6mm}
+       \hbox to 6.28in {{\Large \hfill #1  \hfill}}
+       \vspace{6mm}
+       \hbox to 6.28in {{\it Lecturer: #2 \hfill Scribes: #3}}
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{#1}{#1}
+   \vspace*{4mm}
+}
+
+\newcommand{\Dir}{\mathrm{Dir}}
+\newcommand{\Gam}{\mathrm{Gamma}}
+\newcommand{\DP}{\mathrm{DP}}
+\newcommand{\todo}[1]{{\color{red} TODO: #1}}
+
+\begin{document}
+
+\lecture{Bayesian nonparametrics}{Sinead Williamson}{Scribes} % Lecture name, Lecturer, Scribes
+
+\section{Introduction}
+Nonparametric models allow the number of parameters to grow with sample size.
+
+\section{Nonparametric regression with Gaussian processes}
+Usually, polynomial regression is used to model a set of points. Unfortunately, as the numbers of degree of freedom include, this produces overfitting.
+
+\subsection{The Gaussian distribution}
+Two important properties: if $y=[y_1,y_2]$ is Gaussian, then:
+\begin{itemize}
+    \item the marginal $y_1$ is Gaussian
+    \item the conditional $y_1 \mid y_2$ is Gaussian
+\end{itemize}
+
+A GP corresponds to a generalization of a $N$-variate Gaussian as $N \longrightarrow \infty$, such that the marginals are still normally distributed. It is thus a distribution over functions controlled by a covariance function.
+Typically, an exponential kernel is used to define the covariance function.
+
+When observing data, the predictions of the model are close to the existing data points and generic wherever data is absent (add figure).
+
+\section{Nonparametric mixture models}
+\subsection{Finite mixture models}
+Bayesian mixture models are obtained by putting a prior and integrating out.
+
+\subsection{The Dirichlet distribution}
+A $K$-dimensional Dirichlet distribution, denoted $\Dir(\alpha)$, is parametrized b $K$ real numbers $\alpha_1 \dots \alpha_K$ which control where the probability mass is distributed over the $K$-dimensional simplex.
+This can be seen by taking the excpectation of $\pi \sim \Dir(\alpha)$:
+$$ \mathbb{E}(\pi_1 \dots \pi_K) = \frac{(\alpha_1 \dots \alpha_K)}{\sum_k \alpha_k} $$ 
+
+An important property of the Dirichlet distribution is its conjugacy to the multinomial distribution. This derives from:
+$$ p(\pi \mid x_1 \dots x_N) = \dots $$
+In practice, this can be interpreted as smoothing the parameters.
+
+The Dirichlet distribution is a distribution over distributions, defined by positive vectors which sum to one. A sample from a Dirichlet distribution $\pi \sim \Dir(\alpha)$ is itself a distribution over the parameter space (e.g. $\theta = (\mu, \Sigma) \in \mathbb{R}^n \times \mathbb{R}^{2n}$ for an $n$-variate Gaussian).
+
+$$ p(x \mid \pi) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
+
+\paragraph{Relation to the gamma distribution}
+
+If $\nu_k \sim \Gam(\alpha_k, 1)$, then $\frac{\nu}{\sum_k \nu_k} \sim \Dir(\alpha)$.
+
+\paragraph{Properties}
+
+From the properties of the gamma distribution, we deduce that a $(K-1)$-dimensional Dirichlet distribution can be obtained from a $K$-dimensional Dirichlet distribution by summing the two first components.
+\todo{renormalization}
+
+We can now generalize to an infinite number of parameters by splitting and renormalizing: $\pi \sim \Dir(\frac{\alpha}{K}), K \longrightarrow \infty$. This defines the Dirichlet process, which we write $G \sim \DP(\alpha, H)$. Now the combination can be written:
+
+$$ p(x \mid G) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
+
+
+\end{document}
