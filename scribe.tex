@@ -37,6 +37,7 @@
 
 \newcommand{\Dir}{\mathrm{Dir}}
 \newcommand{\Gam}{\mathrm{Gamma}}
+\newcommand{\Bet}{\mathrm{Beta}}
 \newcommand{\DP}{\mathrm{DP}}
 \newcommand\iid{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny iid}}}{\sim}}}
 \newcommand{\todo}[1]{{\color{red} TODO: #1}}
@@ -96,9 +97,25 @@ The Dirichlet distribution is a distribution over distributions, defined by posi
 
 $$ p(x \mid \pi) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
 
-\paragraph{Relation to the gamma distribution}
+\paragraph{Relation to the Gamma distribution}
 
-If $\nu_k \sim \Gam(\alpha_k, 1)$, then $\frac{\nu}{\sum_k \nu_k} \sim \Dir(\alpha)$.
+\begin{itemize}
+\item If $\eta_k \sim \Gam(\alpha_k, 1)$, then $\frac{(\eta_1,\ldots,\eta_K)}{\sum_k \eta_k} \sim \Dir(\alpha_1,\ldots,\alpha_K)$
+\item If $\eta_1 \sim \Gam(\alpha_1, 1)$ and If $\eta_2 \sim \Gam(\alpha_2, 1)$, then
+\[ \eta_1 +\eta_2 \sim \Gam(\alpha_1 + \alpha_2, 1) \]
+\item Thus if $(\pi_1,\ldots,\pi_K) \sim \Dir(\alpha_1,\ldots,\alpha_K)$, then
+\[ (\pi_1 + \pi_2,\ldots,\pi_K) \sim \Dir(\alpha_1 + \alpha_2, \alpha_3,\ldots,\alpha_K) \]
+\end{itemize}
+
+\paragraph{Relation to the Beta distribution}
+The Beta distribution is a Dirichlet distribution on the 1-simplex.
+\begin{itemize}
+\item If $(\pi_1,\ldots,\pi_K) \sim \Dir(\alpha_1,\ldots,\alpha_K)$ and $\theta \sim \Bet{(\alpha_1b,\alpha_1(1-b))}$, with $0 < b < 1$ then
+\[ (\pi_1\theta,\pi_1(1-\theta),\pi_2,\ldots,\pi_K) \sim Dir{(\alpha_1 b,\alpha_1(1-b),\alpha_2,\ldots,\alpha_K)} \]
+\item More generally, if $\theta \sim \Dir{(\alpha_1b_1,\ldots,\alpha_1b_N,\alpha_2,\ldots,\alpha_K)}$, then
+\[ (\pi_1\theta_1,\ldots,\pi_1\theta_N,\pi_2,\ldots,\pi_k) \sim \Dir{(\alpha_1b_1,\ldots,\alpha_1b_N,\alpha_2,\ldots,\alpha_K)} \]
+\end{itemize}
+
 
 \paragraph{Properties}
 
