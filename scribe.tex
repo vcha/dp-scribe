@@ -38,6 +38,7 @@
 \newcommand{\Dir}{\mathrm{Dir}}
 \newcommand{\Gam}{\mathrm{Gamma}}
 \newcommand{\DP}{\mathrm{DP}}
+\newcommand\iid{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny iid}}}{\sim}}}
 \newcommand{\todo}[1]{{\color{red} TODO: #1}}
 
 \begin{document}
@@ -71,13 +72,24 @@ Typically, an exponential kernel is used to define the covariance function.
 \subsection{Finite mixture models}
 Bayesian mixture models are obtained by putting a prior and integrating out.
 
-\subsection{The Dirichlet distribution}
-A $K$-dimensional Dirichlet distribution, denoted $\Dir(\alpha)$, is parametrized b $K$ real numbers $\alpha_1 \dots \alpha_K$ which control where the probability mass is distributed over the $K$-dimensional simplex.
-This can be seen by taking the excpectation of $\pi \sim \Dir(\alpha)$:
+\subsection{Properties of the Dirichlet distribution}
+The $K$-dimensional Dirichlet distribution is given by
+\[
+\Dir(\alpha) = \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k - 1} \:,
+\]
+
+where $\alpha$ = $(\alpha_1, \dots, \alpha_K)$ is a vector of $K$ real numbers whose members must be non-negative, and the sum of which must be positive.  This vector controls where the probability mass is distributed over the $(K-1)$-dimensional unit simplex.  This can be seen by taking the excpectation of $\pi \sim \Dir(\alpha)$:
 $$ \mathbb{E}(\pi_1 \dots \pi_K) = \frac{(\alpha_1 \dots \alpha_K)}{\sum_k \alpha_k} $$ 
 
-An important property of the Dirichlet distribution is its conjugacy to the multinomial distribution. This derives from:
-$$ p(\pi \mid x_1 \dots x_N) = \dots $$
+An important property of the Dirichlet distribution is its conjugacy to the multinomial distribution. If $\theta \sim \Dir(\alpha_1,\ldots,\alpha_K)$ and $x_n \iid \theta$, then
+\begin{align}
+  p(\pi \mid x_1, \dots, x_N)
+  &\propto p(x_1, \dots, x_N \mid \pi) p(\pi) \\
+  &= \left( \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k - 1} \right) \left( \frac{n!}{m_1! \ldots m_K!} \pi_1^{m_1} \ldots \pi_K^{m_K} \right) \\
+  &\propto \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k + m_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k + m_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k + m_k - 1} \\
+  &= \Dir(\pi \mid \alpha_1 + m_1, \dots, \alpha_K + m_K)
+\end{align}
+ 
 In practice, this can be interpreted as smoothing the parameters.
 
 The Dirichlet distribution is a distribution over distributions, defined by positive vectors which sum to one. A sample from a Dirichlet distribution $\pi \sim \Dir(\alpha)$ is itself a distribution over the parameter space (e.g. $\theta = (\mu, \Sigma) \in \mathbb{R}^n \times \mathbb{R}^{2n}$ for an $n$-variate Gaussian).
