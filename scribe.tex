@@ -60,7 +60,12 @@ Two important properties: if $y=[y_1,y_2]$ is Gaussian, then:
 \paragraph{The Gaussian process} A GP corresponds to a generalization of a $N$-variate Gaussian as $N \longrightarrow \infty$, such that the marginals are still normally distributed. It is thus a distribution over functions controlled by a covariance function.
 Typically, an exponential kernel is used to define the covariance function.
 
-When observing data, the predictions of the model are close to the existing data points and generic wherever data is absent \todo{add figure from slides}.
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=0.5\textwidth]{gpinf.pdf} 
+   \caption{Inference with the Gaussian process regression.  The predictions of the model are close to the existing data points and generic wherever data is absent.}
+   \label{fig:gpinf}
+\end{figure}
 
 \section{Nonparametric mixture models}
 \subsection{Finite mixture models}
