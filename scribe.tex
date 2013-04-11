@@ -83,13 +83,13 @@ where $\alpha$ = $(\alpha_1, \dots, \alpha_K)$ is a vector of $K$ real numbers w
 $$ \mathbb{E}(\pi_1 \dots \pi_K) = \frac{(\alpha_1 \dots \alpha_K)}{\sum_k \alpha_k} $$ 
 
 An important property of the Dirichlet distribution is its conjugacy to the multinomial distribution. If $\theta \sim \Dir(\alpha_1,\ldots,\alpha_K)$ and $x_n \iid \theta$, then
-\begin{align}
+\begin{align*}
   p(\pi \mid x_1, \dots, x_N)
   &\propto p(x_1, \dots, x_N \mid \pi) p(\pi) \\
   &= \left( \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k - 1} \right) \left( \frac{n!}{m_1! \ldots m_K!} \pi_1^{m_1} \ldots \pi_K^{m_K} \right) \\
   &\propto \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k + m_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k + m_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k + m_k - 1} \\
   &= \Dir(\pi \mid \alpha_1 + m_1, \dots, \alpha_K + m_K)
-\end{align}
+\end{align*}
  
 In practice, this can be interpreted as smoothing the parameters.
 
@@ -143,11 +143,50 @@ More explicitly,
 \item we write $G \sim \DP{(\alpha,H)}$
 \end{itemize}
 
-Another definition of the DP can be obtained by considering partitions of the probability space: \todo{A Dirichlet process is the unique distribution over probability distributions on some space Ω, such that for any finite partition [etc.]}
+\paragraph{Properties of the Dirichlet Process}
+For any partition $A_1,...,A_K$ of $\Omega$, the total mass assigned to each partition is distributed according to $\Dir(\alpha H(A_1)),\ldots, \alpha H(A_K))$.
 
+\todo{insert partition picture?}
+
+\paragraph{Definition: finite marginals}
+Another definition of the DP can be obtained by considering partitions of the probability space: A Dirichlet process is the unique distribution over probability distributions on some space $\Omega$, such that for any finite partition $A_1,...,A_K$ of $\Omega$
+\[
+\left( P(A_1),\ldots, P(A_K) \right) \sim \Dir{\left( \alpha H(A_1),\ldots, \alpha H(A_K) \right)}
+\]
+
+\paragraph{Conjugacy of the Dirichlet process}
 The posterior over partitions given an observation $x$ is a finite dimensional Dirichlet :
 $ G \mid x \sim \DP(\alpha+1, \frac{\alpha H + \delta_x}{\alpha + 1})$
 
-\todo{Finish predictive distribution: rich gets richer effect}
+\paragraph{The Dirichlet process as a predictive distribution}
+
+The DP nonparametrically clusters observations: a new data point can either joint an existing cluster or a start a cluster of its own.  This data point trivially starts its own cluster, splitting the parameter space into the singleton (the $\theta_1$ cluster) and everything else.  Let $\pi_1$ be the atom at $\theta_1$.  Then the combined mass of all the other atoms is $1 - \pi_1$, and we have
+\begin{itemize}
+\item \emph{A priori} $(\pi_1,\pi_*) \sim \Dir(0,\alpha)$
+\item \emph{A posteriori} $(\pi_1,\pi_*) \mid X_1 = \theta_1 \sim \Dir(1,\alpha)$
+\end{itemize}
+
+If we integrate out $\pi$, we get
+\begin{align*}
+   P(X_2 = \theta_k \mid X_1 = \theta_1)
+&= \int P(X_2 = \theta_k \mid (\pi_1,\pi_*)) P(\pi_1,\pi_* \mid X_1=\theta_1) d\pi_1  \\
+&= \int \Dir((\pi_1,1-\pi_1) \mid 1,\alpha) d\pi_1 \\
+&= \mathbb{E}_{\Dir(1,\alpha)}[\pi_k] \\
+&= \begin{cases}    \frac{1}{1+\alpha} & \text{if } k=1,\\    \frac{\alpha}{1+\alpha} & \text{for new } k.\end{cases}
+\end{align*}
+
+In general, if $m_k$ is the number of memebers of cluster $k$, then if we have $K$ total clusters,
+\begin{align*}
+   P(X_{n+1} = \theta_k \mid X_1,\ldots,X_n)
+&= \int P(X_{n+1} = \theta_k \mid \pi) P(\pi_1 \mid X_1,\ldots,X_n) d\pi  \\
+&= \mathbb{E}_{\Dir(m_1,\ldots,m_K,\alpha)}[\pi_k] \\
+&= \begin{cases}    \frac{m_k}{1+\alpha} & \text{if } k<K,\\    \frac{\alpha}{n+\alpha} & \text{for new } cluster.\end{cases}
+\end{align*}
+
+With these probabilities for joining/starting a cluster, we tend to see a rich-get-richer effect, a hallmark of clustering schema and late-capitalism.
+
+\todo{polya urn?}
+
+\todo{chinese resaurant?}
 
 \end{document}
