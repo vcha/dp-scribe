@@ -107,6 +107,8 @@ $$ p(x \mid \pi) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
 \[ (\pi_1 + \pi_2,\ldots,\pi_K) \sim \Dir(\alpha_1 + \alpha_2, \alpha_3,\ldots,\alpha_K) \]
 \end{itemize}
 
+From the properties of the gamma distribution, we deduce that a $(K-1)$-dimensional Dirichlet distribution can be obtained from a $K$-dimensional Dirichlet distribution by summing the two first components.
+
 \paragraph{Relation to the Beta distribution}
 The Beta distribution is a Dirichlet distribution on the 1-simplex.
 \begin{itemize}
@@ -117,17 +119,29 @@ The Beta distribution is a Dirichlet distribution on the 1-simplex.
 \end{itemize}
 
 
-\paragraph{Properties}
+\paragraph{Renormalization Property}
 
-From the properties of the gamma distribution, we deduce that a $(K-1)$-dimensional Dirichlet distribution can be obtained from a $K$-dimensional Dirichlet distribution by summing the two first components.
-\todo{renormalization}
+If $(\pi_1,\ldots,\pi_K) \sim \Dir(\alpha_1,\ldots,\alpha_K)$, then
+\[
+\frac{(\pi_2,\ldots,\pi_K)}{\sum_{k=2}^K \pi_k} \sim \Dir(\alpha_2,\ldots,\alpha_K)
+\]
+
 
 \subsection{The Dirichlet process}
-We can now generalize to an infinite number of parameters by splitting and renormalizing: $\pi \sim \Dir(\frac{\alpha}{K}), K \longrightarrow \infty$. This defines the Dirichlet process, which we write $G \sim \DP(\alpha, H)$. Now the combination can be written:
+We can now generalize to an infinite number of parameters by splitting and renormalizing: $\pi \sim \Dir(\frac{\alpha}{K}), K \longrightarrow \infty$. This defines the Dirichlet process, which we write $G \sim \DP(\alpha, H)$, where $H$ is the base measure. Now the combination can be written:
 
 $$ p(x \mid G) = \sum_{k=1}^K \pi_k p(x \mid \theta_K) $$
 
 The concentration parameter $\alpha$ controls the sparsity of the distribution, and the base measure $H$ determines the locations of the atoms $\delta_{\theta_k}$.
+
+More explicitly, 
+\begin{itemize}
+\item let $H$ be a distribution on some space $\Omega$, for example, a Gaussian distribution on over the reals.
+\item let $\pi \sim \lim_{K \to \infty} \Dir{\left( \frac{\alpha_1}{K},\ldots,\frac{\alpha_K}{K} \right)}$
+\item in the limit that $K \to \infty$, for $k = 1,\ldots,K$, let $\theta_k \sim H$
+\item Then $G := \sum_{k=1}^{\infty}\pi_k \delta_{\theta_k}$ is an infinite distribution over H, and
+\item we write $G \sim \DP{(\alpha,H)}$
+\end{itemize}
 
 Another definition of the DP can be obtained by considering partitions of the probability space: \todo{A Dirichlet process is the unique distribution over probability distributions on some space Ω, such that for any finite partition [etc.]}
 
