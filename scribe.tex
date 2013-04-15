@@ -78,9 +78,15 @@ The $K$-dimensional Dirichlet distribution is given by
 \[
 \Dir(\alpha) = \frac{\prod_{k=1}^{K} \Gamma{(\alpha_k)}}{\Gamma{(\sum_{k=1}^{K} \alpha_k)}} \prod_{k=1}^{K} \pi_{k}^{\alpha_k - 1} \:,
 \]
-
 where $\alpha$ = $(\alpha_1, \dots, \alpha_K)$ is a vector of $K$ real numbers whose members must be non-negative, and the sum of which must be positive.  This vector controls where the probability mass is distributed over the $(K-1)$-dimensional unit simplex.  This can be seen by taking the excpectation of $\pi \sim \Dir(\alpha)$:
 $$ \mathbb{E}(\pi_1 \dots \pi_K) = \frac{(\alpha_1 \dots \alpha_K)}{\sum_k \alpha_k} $$ 
+
+\begin{figure}[htbp] %  figure placement: here, top, bottom, or page
+   \centering
+   \includegraphics[width=0.75\textwidth]{dirichlet.pdf} 
+   \caption{The PDF of a Dirichlet distibruion with a three-dimensional $\alpha$ parameter.  The distribution is on the 2-dimensional surface that is the largest face of the 3-simplex whose vertices are the unit basis vectors and the origin.  Higher density corresponds to redder colors.}
+   \label{fig:diricheltpdfs}
+\end{figure}
 
 An important property of the Dirichlet distribution is its conjugacy to the multinomial distribution. If $\theta \sim \Dir(\alpha_1,\ldots,\alpha_K)$ and $x_n \iid \theta$, then
 \begin{align*}
@@ -172,7 +178,10 @@ If we integrate out $\pi$, we get
 &= \int P(X_2 = \theta_k \mid (\pi_1,\pi_*)) P(\pi_1,\pi_* \mid X_1=\theta_1) d\pi_1  \\
 &= \int \Dir((\pi_1,1-\pi_1) \mid 1,\alpha) d\pi_1 \\
 &= \mathbb{E}_{\Dir(1,\alpha)}[\pi_k] \\
-&= \begin{cases}    \frac{1}{1+\alpha} & \text{if } k=1,\\    \frac{\alpha}{1+\alpha} & \text{for new } k.\end{cases}
+&= \begin{cases}
+    \frac{1}{1+\alpha} & \text{if } k=1,\\
+    \frac{\alpha}{1+\alpha} & \text{for new } k.
+\end{cases}
 \end{align*}
 
 In general, if $m_k$ is the number of members of cluster $k$, then if we have $K$ total clusters,
@@ -180,7 +189,10 @@ In general, if $m_k$ is the number of members of cluster $k$, then if we have $K
    P(X_{n+1} = \theta_k \mid X_1,\ldots,X_n)
 &= \int P(X_{n+1} = \theta_k \mid \pi) P(\pi_1 \mid X_1,\ldots,X_n) d\pi  \\
 &= \mathbb{E}_{\Dir(m_1,\ldots,m_K,\alpha)}[\pi_k] \\
-&= \begin{cases}    \frac{m_k}{1+\alpha} & \text{if } k<K,\\    \frac{\alpha}{n+\alpha} & \text{for new } cluster.\end{cases}
+&= \begin{cases}
+    \frac{m_k}{1+\alpha} & \text{if } k<K,\\
+    \frac{\alpha}{n+\alpha} & \text{for new cluster}.
+\end{cases}
 \end{align*}
 
 With these probabilities for joining/starting a cluster, we tend to see a rich-get-richer effect, a hallmark of clustering schema and late-capitalism.
