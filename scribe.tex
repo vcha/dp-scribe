@@ -46,32 +46,25 @@
 
 \lecture{Bayesian nonparametrics}{Sinead Williamson}{Victor Chahuneau, Rory Donovan, Abhimanu Kumar}
 
-\section{Introduction}
 Nonparametric models allow the number of parameters to grow with sample size.
 
 \section{Nonparametric regression with Gaussian processes}
 Usually, polynomial regression is used to model a set of points. Unfortunately, as the numbers of degree of freedom include, this produces overfitting.
 
 \paragraph{The Gaussian distribution}
-Two important properties: if $y=[y_1,y_2]$ is Gaussian, then:
-\begin{itemize}
-    \item the marginal $y_1$ is Gaussian
-    \item the conditional $y_1 \mid y_2$ is Gaussian
-\end{itemize}
+Two important properties: if $y=[y_1,y_2]$ is normally distributed, then the marginal $y_1$ and the conditional $y_1 \mid y_2$ are also normally distributed.
 
 \paragraph{The Gaussian process} A GP corresponds to a generalization of a $N$-variate Gaussian as $N \longrightarrow \infty$, such that the marginals are still normally distributed. It is thus a distribution over functions controlled by a covariance function.
 Typically, an exponential kernel is used to define the covariance function.
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=0.5\textwidth]{gpinf.pdf} 
+   \includegraphics[width=0.4\textwidth]{gpinf.pdf} 
    \caption{Inference with the Gaussian process regression.  The predictions of the model are close to the existing data points and generic wherever data is absent.}
    \label{fig:gpinf}
 \end{figure}
 
 \section{Nonparametric mixture models}
-\subsection{Finite mixture models}
-Bayesian mixture models are obtained by putting a prior and integrating out.
 
 \subsection{Properties of the Dirichlet distribution}
 The $K$-dimensional Dirichlet distribution is given by
@@ -83,8 +76,8 @@ $$ \mathbb{E}(\pi_1 \dots \pi_K) = \frac{(\alpha_1 \dots \alpha_K)}{\sum_k \alph
 
 \begin{figure}[htbp] %  figure placement: here, top, bottom, or page
    \centering
-   \includegraphics[width=0.75\textwidth]{dirichlet.pdf} 
-   \caption{The PDF of a Dirichlet distibruion with a three-dimensional $\alpha$ parameter.  The distribution is on the 2-dimensional surface that is the largest face of the 3-simplex whose vertices are the unit basis vectors and the origin.  Higher density corresponds to redder colors.}
+   \includegraphics[width=0.5\textwidth]{dirichlet.pdf} 
+   \caption{The PDF of a Dirichlet distribution with a three-dimensional $\alpha$ parameter.  The distribution is on the 2-dimensional surface that is the largest face of the 3-simplex whose vertices are the unit basis vectors and the origin.  Higher density corresponds to redder colors.}
    \label{fig:diricheltpdfs}
 \end{figure}
 
@@ -197,7 +190,7 @@ In general, if $m_k$ is the number of members of cluster $k$, then if we have $K
 
 With these probabilities for joining/starting a cluster, we tend to see a rich-get-richer effect, a hallmark of clustering schema and late-capitalism.
 
-\todo{p\'olya urn}
+\todo{P\'olya urn}
 
 \todo{chinese restaurant}
 
